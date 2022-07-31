@@ -104,7 +104,7 @@ class DualOcnnSolver(Solver):
   @classmethod
   def update_configs(cls):
     FLAGS = get_config()
-    FLAGS.SOLVER.resolution = 128       # the resolution used for marching cubes
+    FLAGS.SOLVER.resolution = 128       # the resolution used for marching cubes | marching cube 分辨率
     FLAGS.SOLVER.save_sdf = False       # save the sdfs in evaluation
     FLAGS.SOLVER.sdf_scale = 0.9        # the scale of sdfs
 
