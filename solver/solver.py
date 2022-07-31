@@ -440,7 +440,7 @@ class Solver:
       the_solver = cls(FLAGS, is_master=True)
     the_solver.run()
 
-  @classmethod
+  @classmethod # 可以在实例化之前直接调用这个类里面的这个函数
   def main(cls):
     cls.update_configs()
     FLAGS = parse_args()

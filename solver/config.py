@@ -11,33 +11,33 @@ import sys
 import shutil
 import argparse
 from datetime import datetime
-from yacs.config import CfgNode as CN
+from yacs.config import CfgNode as CN # 用于：为某个系统构建config文件
 
 _C = CN()
 
 # SOLVER related parameters
 _C.SOLVER = CN()
-_C.SOLVER.alias             = ''         # The experiment alias
-_C.SOLVER.gpu               = (0,)       # The gpu ids
-_C.SOLVER.run               = 'train'    # Choose from train or test
+_C.SOLVER.alias             = ''         # The experiment alias | 实验的别名
+_C.SOLVER.gpu               = (0,)       # The gpu ids | GPU 编号
+_C.SOLVER.run               = 'train'    # Choose from train or test | 可以选择是训练还是测试，默认是训练
 
-_C.SOLVER.logdir            = 'logs'     # Directory where to write event logs
-_C.SOLVER.ckpt              = ''         # Restore weights from checkpoint file
-_C.SOLVER.ckpt_num          = 10         # The number of checkpoint kept
+_C.SOLVER.logdir            = 'logs'     # Directory where to write event logs | 用于保存事件日志的路径
+_C.SOLVER.ckpt              = ''         # Restore weights from checkpoint file | 用于从该checkpoint文件中重新加载权重参数
+_C.SOLVER.ckpt_num          = 10         # The number of checkpoint kept | 保持的 checkpoint 数量？难道会动态删除旧的checkpoint吗？
 
-_C.SOLVER.type              = 'sgd'      # Choose from sgd or adam
+_C.SOLVER.type              = 'sgd'      # Choose from sgd or adam | 优化算法这里为什么默认选择sgd，我看好多人选择adam。后来查资料，有说法是，优秀的论文喜欢使用sgd，可能是因为学习率和decay可以手动调节，不知道有没有道理                                         
 _C.SOLVER.weight_decay      = 0.0005     # The weight decay on model weights
 _C.SOLVER.max_epoch         = 300        # Maximum training epoch
 _C.SOLVER.eval_epoch        = 1          # Maximum evaluating epoch
-_C.SOLVER.eval_step         = -1         # Maximum evaluating steps
-_C.SOLVER.test_every_epoch  = 10         # Test model every n training epochs
+_C.SOLVER.eval_step         = -1         # Maximum evaluating steps | 这个是干啥的呢？
+_C.SOLVER.test_every_epoch  = 10         # Test model every n training epochs | 每10个training epoch 测试一下， for what
 _C.SOLVER.log_per_iter      = -1         # Output log every k training iteration
 
-_C.SOLVER.lr_type           = 'step'     # Learning rate type: step or cos
+_C.SOLVER.lr_type           = 'step'     # Learning rate type: step or cos 
 _C.SOLVER.lr                = 0.1        # Initial learning rate
-_C.SOLVER.gamma             = 0.1        # Learning rate step-wise decay
-_C.SOLVER.step_size         = (120,60,)  # Learning rate step size.
-_C.SOLVER.lr_power          = 0.9        # Used in poly learning rate
+_C.SOLVER.gamma             = 0.1        # Learning rate step-wise decay | 学习率阶梯式递减率
+_C.SOLVER.step_size         = (120,60,)  # Learning rate step size. | 啥是学习率不长，这个怎么用？
+_C.SOLVER.lr_power          = 0.9        # Used in poly learning rate | poly 衰减策略（Poly Learning Rate Policy），是一个中前期类似于线性地的下降，到后期下降越来越快，直到降为0
 
 _C.SOLVER.dist_url          = 'tcp://localhost:10001'
 _C.SOLVER.progress_bar      = True
