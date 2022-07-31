@@ -13,10 +13,10 @@ import argparse
 from datetime import datetime
 from yacs.config import CfgNode as CN # 用于：为某个系统构建config文件
 
-_C = CN()
+_C = CN() # 创建CN() 作为容器来装在我们的参数，这个容器可以嵌套
 
 # SOLVER related parameters
-_C.SOLVER = CN()
+_C.SOLVER = CN() # 嵌套使用
 _C.SOLVER.alias             = ''         # The experiment alias | 实验的别名
 _C.SOLVER.gpu               = (0,)       # The gpu ids | GPU 编号
 _C.SOLVER.run               = 'train'    # Choose from train or test | 可以选择是训练还是测试，默认是训练
@@ -46,7 +46,7 @@ _C.SOLVER.progress_bar      = True
 # DATA related parameters
 _C.DATA = CN()
 _C.DATA.train = CN()
-_C.DATA.train.name          = ''          # The name of the dataset
+_C.DATA.train.name          = ''          # The name of the dataset | 数据集的名称
 
 # For octree building
 # If node_dis = True and there are normals, the octree features
