@@ -87,13 +87,13 @@ def sample_points(path): # path = data/gibson_tiny/*/
   '''
   
   # MXQ 2022.07.31 ========
-  if os.path.exists(path + '/scene.npy'):
+  if os.path.exists(path + '/scene2M.npy'):
     print('File exists - skip! {}'.format(path))
     return
   
   input_file  = path + '/mesh_z_up.obj'
       
-  num_samples = 100000
+  num_samples = 2000000
   print('-> Sample points.')
     
   mesh = trimesh.load(input_file)
@@ -104,8 +104,8 @@ def sample_points(path): # path = data/gibson_tiny/*/
   points = (points - center) * shape_scale
   point_cloud = np.concatenate((points, normals), axis=-1).astype(np.float32)
   
-  output_file_pts = path + '/scene.npy'
-  output_file_center = path + '/scene_center.npy'
+  output_file_pts = path + '/scene2M.npy'
+  output_file_center = path + '/scene_center2M.npy'
   np.save(output_file_pts, point_cloud)
   np.save(output_file_center, center)
 

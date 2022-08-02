@@ -6,14 +6,14 @@
 # --------------------------------------------------------
 
 SOLVER:
-  gpu: 0,1,2
+  gpu: 0,1,2,3
   run: train
 
   logdir: logs/gibson_tiny/gibson_tiny
-  max_epoch: 600
+  max_epoch: 700
   test_every_epoch: 10
-  log_per_iter: 50
-  ckpt_num: 200
+  log_per_iter: 50 
+  ckpt_num: 200 # 保留 100 个checkpoint，如果有新的checkpoint被保存，则旧的就动态删除掉
 
   # optimizer
   type: adamw
@@ -22,7 +22,7 @@ SOLVER:
 
   # learning rate
   lr_type: poly
-  step_size: (200, 300)
+  step_size: (200, 300) 
 
 
 DATA:
@@ -31,34 +31,40 @@ DATA:
     point_scale: 1.0
 
     # octree building
-    depth: 10
-    full_depth: 3
+    depth: 8 # 八叉树的深度
+    # full_depth 应该是一个阈值，当depth深度小于3的时候，force the octree to be full，
+    # full 的意思就是变成了均匀的体素网格，不再有大网格小网格之分，全部都是三级小网格
+    full_depth: 3 
     node_dis: True
     split_label: True
     offset: 0.0
 
     # data loading
-    location: data/gibson/dataset
-    filelist: data/gibson/filelist/train.txt
-    batch_size: 16
+    location: data/gibson_tiny
+    filelist: data/gibson_tiny/manifest_train
+    batch_size: 1 # 由原来的16改为8，怕显卡内存hold不住
     # num_workers: 0
+
+    point_sample_num: 200000
 
   test:
     name: pointcloud
     point_scale: 1.0
 
     # octree building
-    depth: 10
+    depth: 8
     full_depth: 3
     node_dis: True
     split_label: True
     offset: 0.0
 
     # data loading
-    location: data/gibson_tiny/dataset
-    filelist: data/gibson_tiny/filelist/test.txt
-    batch_size: 4
+    location: data/gibson_tiny
+    filelist: data/gibson_tiny/manifest_test
+    batch_size: 1 # 由原来的4改为2
     # num_workers: 0
+
+    point_sample_num: 200000
 
 
 MODEL:
@@ -66,12 +72,12 @@ MODEL:
   resblock_type: basic
   find_unused_parameters: True
 
-  depth: 10
+  depth: 8 # 这个好像是GraphOUNet网络的深度，最深好像就到8，
   full_depth: 3
-  depth_out: 8
+  depth_out: 8 # The output feature depth
   channel: 4
   nout: 4
 
 LOSS:
-  name: gibson_tiny
+  name: dfaust
   loss_type: possion_grad_loss

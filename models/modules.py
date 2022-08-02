@@ -15,8 +15,8 @@ import torch.utils.checkpoint
 
 from .utils.scatter import scatter_mean
 
-bn_momentum, bn_eps = 0.01, 0.001    # the default value of Tensorflow 1.x
-# bn_momentum, bn_eps = 0.1, 1e-05   # the default value of pytorch
+# bn_momentum, bn_eps = 0.01, 0.001    # the default value of Tensorflow 1.x
+bn_momentum, bn_eps = 0.1, 1e-05   # the default value of pytorch
 
 
 def ckpt_conv_wrapper(conv_op, x, edge_index, edge_type):

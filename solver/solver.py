@@ -422,7 +422,7 @@ class Solver:
 
   @classmethod
   def worker(cls, gpu, FLAGS):
-    world_size = len(FLAGS.SOLVER.gpu)
+    world_size = len(FLAGS.SOLVER.gpu) # 求解器所使用的的gpu的个数
     if world_size > 1:
       # Set the GPU to use.
       torch.cuda.set_device(gpu)

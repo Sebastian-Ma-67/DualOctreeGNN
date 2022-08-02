@@ -1,0 +1,47 @@
+# --------------------------------------------------------
+# Dual Octree Graph Networks
+# Copyright (c) 2022 Microsoft
+# Licensed under The MIT License [see LICENSE for details]
+# Written by Peng-Shuai Wang
+# --------------------------------------------------------
+
+SOLVER:
+  gpu: 0,
+  run: evaluate
+  logdir: logs/gibson_tiny
+  ckpt: logs/gibson_tiny/gibson_tiny/checkpoints/00600.model.pth
+  resolution: 420
+  sdf_scale: 1.0
+
+
+DATA:
+  test:
+    name: pointcloud
+    point_scale: 1.0
+
+    # octree building
+    depth: 8
+    full_depth: 3
+    node_dis: True
+    split_label: True
+    offset: 0.0
+
+    # data loading
+    location: data/gibson_tiny
+    filelist: data/gibson_tiny/manifest_eval
+    batch_size: 1
+    shuffle: False
+    # num_workers: 0
+
+    point_sample_num: 200000
+
+
+MODEL:
+  name: graph_unet
+  resblock_type: basic
+
+  depth: 8
+  full_depth: 3
+  depth_out: 8
+  channel: 4
+  nout: 4
